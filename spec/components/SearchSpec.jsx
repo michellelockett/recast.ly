@@ -7,7 +7,7 @@ describe ('Search', function() {
   } = React.addons.TestUtils;
 
   var app, searchYouTubeStub;
-  
+
   xdescribe('when rendering live data from YouTube', function() {
     beforeEach(function() {
       searchYouTubeStub = sinon.stub();
@@ -25,7 +25,7 @@ describe ('Search', function() {
         expect(videoEntryTitle.innerHTML).to.equal(fakeVideoData[i].snippet.title);
       });
     });
-    
+
     it('should update the video list when typing into the input box', function() {
       var videoEntryTitleElements = scryRenderedDOMComponentsWithClass(app, 'video-list-entry-title');
       videoEntryTitleElements.forEach((videoEntryTitle, i) => {
