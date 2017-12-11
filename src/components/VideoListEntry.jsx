@@ -4,7 +4,7 @@ var VideoListEntry = (props) => (
       <img className="media-object" src={props.video.snippet.thumbnails.default.url} alt="" />
     </div>
     <div className="media-body">
-      <div onClick={props.handler} className="video-list-entry-title">{props.video.snippet.title}</div>
+      <div onClick={function() { props.handler(props.index); }} className="video-list-entry-title">{props.video.snippet.title}</div>
       <div className="video-list-entry-detail">{props.video.snippet.description}</div>
     </div>
   </div>
@@ -15,6 +15,7 @@ var VideoListEntry = (props) => (
 VideoListEntry.propTypes = {
   video: React.PropTypes.object.isRequired,
   handler: React.PropTypes.func.isRequired,
+  index: React.PropTypes.number.isRequired
 };
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
