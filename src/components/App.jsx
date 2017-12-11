@@ -6,6 +6,7 @@ class App extends React.Component {
     this.state = {
       videos: [],
       playerVideo: TESTDATA[0],
+      playerStats: {},
     };
 
     this.liveSearch = _.debounce(this.props.searchYouTube, 500);
@@ -13,6 +14,7 @@ class App extends React.Component {
 
   handleClick(index) {
     let newPlayerVid = this.state.videos[index];
+    this.props.getStats(newPlayerVid.id.videoId, this.setStats.bind(this));
     this.setState({
       playerVideo: newPlayerVid
     });
@@ -35,10 +37,17 @@ class App extends React.Component {
     }, this.setVideos.bind(this));
   }
 
-  setVideos (videos) {
+  setVideos (stats, videos) {
     this.setState({
       videos: videos,
-      playerVideo: videos[0]
+      playerVideo: videos[0],
+      playerStats: stats
+    });
+  }
+
+  setStats(stats) {
+    this.setState({
+      playerStats: stats
     });
   }
 
@@ -53,6 +62,12 @@ class App extends React.Component {
         <div className="row">
           <div className="col-md-7">
             <VideoPlayer video={this.state.playerVideo} />
+            <VideoDetails commentCount={this.state.playerStats.commentCount}
+              dislikeCount={this.state.playerStats.dislikeCount}
+              favoriteCount={this.state.playerStats.favoriteCount}
+              likeCount={this.state.playerStats.likeCount}
+              viewCount={this.state.playerStats.viewCount}
+            />
           </div>
           <div className="col-md-5" >
             <VideoList handler={this.handleClick.bind(this)} videos={this.state.videos} />
@@ -66,4 +81,4 @@ class App extends React.Component {
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
 window.App = App;
-ReactDOM.render(<App searchYouTube={window.searchYouTube} />, document.getElementById('app'));
+ReactDOM.render(<App searchYouTube={window.searchYouTube} getStats={window.getStats}/>, document.getElementById('app'));
