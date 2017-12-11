@@ -7,6 +7,8 @@ class App extends React.Component {
       videos: [],
       playerVideo: TESTDATA[0],
     };
+
+    this.liveSearch = _.debounce(this.props.searchYouTube, 500);
   }
 
   handleClick(index) {
@@ -16,15 +18,13 @@ class App extends React.Component {
     });
   }
 
-  liveSearch(event) {
-    console.log(event.target.value);
-    return _.debounce(function() {
-      this.props.searchYouTube({
+  handleSearch(event) {
+    let q = event.target.value;
+    this.liveSearch({
         key: window.YOUTUBE_API_KEY,
-        q: event.target.value,
+        q: q,
         maxResults: 5
-      }, this.setVideos.bind(this))
-    }, 500);
+      }, this.setVideos.bind(this));
   }
 
   componentDidMount() {
@@ -37,7 +37,8 @@ class App extends React.Component {
 
   setVideos (videos) {
     this.setState({
-      videos: videos
+      videos: videos,
+      playerVideo: videos[0]
     });
   }
 
@@ -46,7 +47,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search liveSearch={this.liveSearch.bind(this)} />
+            <Search liveSearch={this.handleSearch.bind(this)} />
           </div>
         </nav>
         <div className="row">
