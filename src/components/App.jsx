@@ -16,6 +16,17 @@ class App extends React.Component {
     });
   }
 
+  liveSearch(event) {
+    console.log(event.target.value);
+    return _.debounce(function() {
+      this.props.searchYouTube({
+        key: window.YOUTUBE_API_KEY,
+        q: event.target.value,
+        maxResults: 5
+      }, this.setVideos.bind(this))
+    }, 500);
+  }
+
   componentDidMount() {
     this.props.searchYouTube({
       key: window.YOUTUBE_API_KEY,
@@ -35,7 +46,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search liveSearch={this.liveSearch.bind(this)} />
           </div>
         </nav>
         <div className="row">
