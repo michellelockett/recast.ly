@@ -21,10 +21,10 @@ class App extends React.Component {
   handleSearch(event) {
     let q = event.target.value;
     this.liveSearch({
-        key: window.YOUTUBE_API_KEY,
-        q: q,
-        maxResults: 5
-      }, this.setVideos.bind(this));
+      key: window.YOUTUBE_API_KEY,
+      q: q,
+      maxResults: 5
+    }, this.setVideos.bind(this));
   }
 
   componentDidMount() {
